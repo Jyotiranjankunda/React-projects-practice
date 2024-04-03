@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
@@ -13,8 +13,8 @@ const storedPlaces = storedIds.map((id) =>
 );
 
 function App() {
-  const modal = useRef();
   const selectedPlace = useRef();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [availablePlaces, setAvailablePlaces] = useState([]);
   const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
@@ -71,12 +71,12 @@ function App() {
   */
 
   function handleStartRemovePlace(id) {
-    modal.current.open();
+    setModalIsOpen(true);
     selectedPlace.current = id;
   }
 
   function handleStopRemovePlace() {
-    modal.current.close();
+    setModalIsOpen(false);
   }
 
   function handleSelectPlace(id) {
@@ -98,11 +98,15 @@ function App() {
     }
   }
 
-  function handleRemovePlace() {
+  // useCallback Hook returns a memoized callback function. Think of memoization as caching a value so that it does not need to be recalculated.
+
+  // It's syntax is similar to useEffect hook. you can write the dependencies in the dependency array which are used in the function. But here, we have not any.
+
+  const handleRemovePlace = useCallback(function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current),
     );
-    modal.current.close();
+    setModalIsOpen(false);
 
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
     localStorage.setItem(
@@ -113,11 +117,11 @@ function App() {
     // Here, we are filtering out only those places which are removed, others are to be as they are before.
 
     // filter method will return those values, which are true, and drop out those which are false.. So here, those places whose id doesn't match with the clicked place id, that will be remain as same, and those places which are removed will be removed from localStorage.
-  }
+  }, []);
 
   return (
     <>
-      <Modal ref={modal}>
+      <Modal open={modalIsOpen}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
           onConfirm={handleRemovePlace}
@@ -149,5 +153,5 @@ function App() {
     </>
   );
 }
- 
+
 export default App;
