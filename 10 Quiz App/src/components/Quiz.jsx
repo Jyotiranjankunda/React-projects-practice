@@ -53,7 +53,13 @@ const Quiz = () => {
       <div id='question'>
         {/* Here, we are providing a timer of 10 secs to the user. If he doesn't select any answer before the timer expires, then nothing will be registered as the answer in the userAnswers array. */}
 
-        <QuestionTimer key={activeQuestionIndex} timeout={10000} onTimeout={handleSkipAnswer} />
+        {/* Whenever the key changes on a component, even if that component is not part of a list, whenever it changes React will destroy the old component instance and create a new one. So it will unmount and remount it basically. */}
+
+        <QuestionTimer
+          key={activeQuestionIndex}
+          timeout={10000}
+          onTimeout={handleSkipAnswer}
+        />
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
         <ul id='answers'>
           {shuffledAnswers.map((answer) => (
