@@ -1,0 +1,15 @@
+side effects are handled by life cycle methods in class based components.
+In functional component, these are done by useEffect hook.
+Class based components can't use hooks.
+
+1. componentDidMount() => called once a component mounted (evaluated and rendered by react)
+It is similar to useEffect(..., [])
+
+2. componentDidUpdate() => called once a component updated (re-evaluated and re-rendered by react)
+It is similart to useEffect(..., [someValue])
+
+3. componentWillUnmount() => called right before component is unmounted (evaluated right before removed from DOM)
+It is similar to the clean up function in useEffect, which runs right before the component is removed.
+useEffect(() => {
+  return () => {...}
+}, [])
