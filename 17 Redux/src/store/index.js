@@ -1,7 +1,29 @@
-import {createStore} from 'redux';
+// import {createStore} from 'redux';
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 
 const initialState = {counter: 0, showCounter: true};
 
+// 
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: initialState,
+  reducers: {
+    increment(state) {
+      state.counter++;
+    },
+    decrement(state) {
+      state.counter--;
+    },
+    increase(state, action) {
+      state.counter += action.amount;
+    },
+    toggleCounter(state) {
+      state.showCounter = !state.showCounter;
+    }
+  }
+});
+
+/*
 const counterReducer = (state = initialState, action) => {
   switch (action.type) {
     case "increment":
@@ -38,10 +60,17 @@ const counterReducer = (state = initialState, action) => {
       break;
   }
 
+  // Some problems with this method: 
+  // 1. Multiple identifiers grow in number with growing app, so it may be possible that we mismatch them.
+  // 2. When our state has many elements, then we have write all of them while returning a new state object, even if we have changed just one or two.
+
   return state;
 }
+*/
 
-const store = createStore(counterReducer);
+const store = configureStore({
+  reducer: counterSlice.reducer
+});
 
 export default store;
 // We need to pass this store to the provider component, which wraps the whole app component.

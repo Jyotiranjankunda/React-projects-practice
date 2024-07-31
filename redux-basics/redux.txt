@@ -1,0 +1,16 @@
+Redux is a state management system for cross-component or app wide state. 
+
+What is cross-component and app-wide state? 
+(i) Local state -> State belongs to a single component. e.g., listening to user input on an input field or toggling a "show more details" field. It should be managed inside the component via useState() or useReducer()
+
+(ii) Cross-component state -> State affecting multiple components. e.g., open/closed state of a modal overlay. Requires "Prop drilling"
+
+(iii) App-wide state -> State affecting the entire app. E.g., user authentication status or chosen theme. Requires "prop drilling"
+
+Redux helps in prop drilling problem. The same thing is done by react context.
+
+But react context has a couple of disadvantages :-
+- In more complex apps, using react context lead to deeply nested or "fat context provider" components.
+- React context is not optimized for high-frequency state changes.
+
+- For small or medium level apps, react context is good to use.
